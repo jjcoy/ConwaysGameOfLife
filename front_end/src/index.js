@@ -1,9 +1,15 @@
+// front_end/src/index.js
+
+// import standard React components
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// import the components
+import App from './App';
+
+// this replaces the "root" div, found in index.html, with the App component
 ReactDOM.render(
   <React.StrictMode>
     <App />

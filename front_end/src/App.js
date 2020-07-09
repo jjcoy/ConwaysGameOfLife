@@ -6,7 +6,6 @@ import { RecoilRoot } from 'recoil'; // Recoil is a state management library
 
 // import components, assets, and css files
 import Home from './components/Home';
-import logo from './logo.svg';
 import './App.css';
 
 // bring in other components needed
@@ -20,7 +19,6 @@ const App = () => {
       {/* We only need one RecoilRoot per application */}
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <p>
             <Home />
           </p>

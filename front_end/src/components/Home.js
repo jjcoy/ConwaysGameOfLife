@@ -2,14 +2,18 @@
 
 // standard imports
 import React from 'react';
-import ToDoList from './TodoList';
 
 const Home = () => {
   return (
     <div className="Home">
       <div className="Title">
-        <h1>Title</h1>
-        <ToDoList />
+        <h1>Conway's Game of Life</h1>
+        <p>
+          For more information, visit the{' '}
+          <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
+            Wikipedia page
+          </a>
+        </p>
       </div>
     </div>
   );

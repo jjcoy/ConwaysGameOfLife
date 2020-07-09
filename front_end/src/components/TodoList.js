@@ -3,17 +3,19 @@
 // standard imports
 import React from 'react'; // the main React library
 import { useRecoilValue } from 'recoil'; // Recoil is a state management library
-import todoListState from './ToDoListState';
+import filteredTodoListState from './filteredTodoListState';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
+import TodoListStats from './TodoListStats';
+import TodoListFilters from './TodoListFilters';
 
 function TodoList() {
-  const todoList = useRecoilValue(todoListState);
+  const todoList = useRecoilValue(filteredTodoListState);
 
   return (
     <>
-      {/* <TodoListStats /> */}
-      {/* <TodoListFilters /> */}
+      <TodoListStats />
+      <TodoListFilters />
       <TodoItemCreator />
 
       {todoList.map((todoItem) => (

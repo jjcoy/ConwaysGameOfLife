@@ -1,6 +1,6 @@
 import React from 'react'; // the main React library
 import { useRecoilState } from 'recoil'; // Recoil is a state management library
-import todoListState from './ToDoListState';
+import todoListState from './todoListState';
 
 function TodoItem({ item }) {
   const [todoList, setTodoList] = useRecoilState(todoListState);

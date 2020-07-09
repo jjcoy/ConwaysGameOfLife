@@ -1,7 +1,7 @@
 import React from 'react'; // the main React library
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil'; // Recoil is a state management library
-import todoListState from './ToDoListState';
+import todoListState from './todoListState';
 
 function TodoItemCreator() {
   const [inputValue, setInputValue] = useState(''); // local state for this component

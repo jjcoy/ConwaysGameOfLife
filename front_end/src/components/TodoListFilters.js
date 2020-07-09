@@ -9,6 +9,7 @@ function TodoListFilters() {
     setFilter(value);
   };
 
+  // drop down box, when selected, updateFilter() changes the RecoilState of the todoListFilterState atom
   return (
     <>
       Filter:

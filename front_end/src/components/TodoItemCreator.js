@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { useSetRecoilState } from 'recoil'; // Recoil is a state management library
 import todoListState from './todoListState';
 
+// component that has an "Add" button that appends to the to do list
 function TodoItemCreator() {
   const [inputValue, setInputValue] = useState(''); // local state for this component
   const setTodoList = useSetRecoilState(todoListState); // link to recoil state
 
+  // add a new element to the end of the old to do list, and clear the text box
   const addItem = () => {
     setTodoList((oldTodoList) => [
       ...oldTodoList,

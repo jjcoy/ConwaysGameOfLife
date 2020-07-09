@@ -4,6 +4,9 @@
 import { selector } from 'recoil'; // Recoil is a state management library
 import todoListState from './todoListState';
 
+// a Recoil State selector is a piece of data derived from a recoil state
+// in other words, it is some information that is dependent on the state
+// in this case, it is the number of items marked done, etc, in the todoList state
 const todoListStatsState = selector({
   key: 'todoListStatsState',
   get: ({ get }) => {

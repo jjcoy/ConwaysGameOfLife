@@ -18,11 +18,7 @@ const App = () => {
     <RecoilRoot>
       {/* We only need one RecoilRoot per application */}
       <div className="App">
-        <header className="App-header">
-          <p>
-            <Home />
-          </p>
-        </header>
+        <Home />
       </div>
     </RecoilRoot>
   );

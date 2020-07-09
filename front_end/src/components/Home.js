@@ -3,6 +3,10 @@
 // standard imports
 import React from 'react';
 
+// import components
+import GameBoard from './GameBoard';
+import Controls from './Controls';
+
 const Home = () => {
   return (
     <div className="Home">
@@ -14,6 +18,12 @@ const Home = () => {
             Wikipedia page
           </a>
         </p>
+      </div>
+      <div className="Board">
+        <GameBoard />
+      </div>
+      <div className="Controls">
+        <Controls />
       </div>
     </div>
   );

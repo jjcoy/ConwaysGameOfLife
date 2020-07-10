@@ -4,19 +4,24 @@
 
 // standard imports
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import './GameBoard.css';
 
+// import the atoms that represent the game
+import * as gameState from '../gameState';
+
 const GameBoard = () => {
-  const WIDTH = 800;
-  const HEIGHT = 600;
-  const CELL_SIZE = 20;
+  const [boardWidth] = useRecoilState(gameState.width);
+  const [boardHeight] = useRecoilState(gameState.height);
+  const [cellSize] = useRecoilState(gameState.cellSize);
   return (
     <div
       className="GameBoard-board"
       style={{
-        width: WIDTH,
-        height: HEIGHT,
-        backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
+        // must have back ticks around these for them to work correctly
+        width: `${boardWidth}px`,
+        height: `${boardHeight}px`,
+        backgroundSize: `${cellSize}px ${cellSize}px`,
       }}
     ></div>
   );

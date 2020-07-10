@@ -4,11 +4,11 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-// import the atoms
-import gameTick from '../gameState';
+// import the atoms that represent the game
+import * as gameState from '../gameState';
 
 const Controls = () => {
-  const [tick, setTick] = useRecoilState(gameTick);
+  const [tick, setTick] = useRecoilState(gameState.gameTick);
   const incrementByOne = () => setTick(tick + 1);
   return (
     <div className="Controls-panel">

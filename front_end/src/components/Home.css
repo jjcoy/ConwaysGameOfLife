@@ -1,0 +1,25 @@
+.Home {
+  display: flex;
+  flex-direction: column;
+}
+
+.Home-title {
+  align-items: flex-start;
+  color: deepskyblue;
+}
+
+.Home-board {
+  align-items: center;
+  color: deepskyblue;
+  background-color: gainsboro;
+}
+
+.Home-controls {
+  align-items: flex-end;
+  color: darkslateblue;
+}
+
+.title-text {
+  font-weight: bold;
+  font-size: 2em;
+}

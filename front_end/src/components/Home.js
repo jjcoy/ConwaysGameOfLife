@@ -2,6 +2,7 @@
 
 // standard imports
 import React from 'react';
+import './Home.css';
 
 // import components
 import GameBoard from './GameBoard';
@@ -10,8 +11,8 @@ import Controls from './Controls';
 const Home = () => {
   return (
     <div className="Home">
-      <div className="Title">
-        <h1>Conway's Game of Life</h1>
+      <div className="Home-title">
+        <p className="title-text">Conway's Game of Life</p>
         <p>
           For more information, visit the{' '}
           <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
@@ -19,10 +20,10 @@ const Home = () => {
           </a>
         </p>
       </div>
-      <div className="Board">
+      <div className="Home-board">
         <GameBoard />
       </div>
-      <div className="Controls">
+      <div className="Home-controls">
         <Controls />
       </div>
     </div>

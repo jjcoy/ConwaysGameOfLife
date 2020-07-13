@@ -18,17 +18,20 @@ export const cols = atom({ key: 'cols', default: 30 });
 // the number of pixels per cell
 export const cellSize = atom({ key: 'cellSize', default: 20 });
 
+// the state of all the cells, a 2D array of boolean
+export const cellLife = atom({ key: 'cellLife', default: [] });
+
 ///////
 // these are selectors, which return values derived from atoms
 ///////
 
-// the width of the game board, in pixels
+// get the width of the game board, in pixels
 export const width = selector({
   key: 'width',
   get: ({ get }) => get(cols) * get(cellSize),
 });
 
-// the height of the game board, in pixels
+// get the height of the game board, in pixels
 export const height = selector({
   key: 'height',
   get: ({ get }) => get(rows) * get(cellSize),

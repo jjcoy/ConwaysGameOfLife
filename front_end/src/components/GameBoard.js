@@ -4,16 +4,18 @@
 
 // standard imports
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import './GameBoard.css';
 
 // import the atoms that represent the game
 import * as gameState from '../gameState';
 
 const GameBoard = () => {
-  const [boardWidth] = useRecoilState(gameState.width);
-  const [boardHeight] = useRecoilState(gameState.height);
-  const [cellSize] = useRecoilState(gameState.cellSize);
+  // gather state information from the Recoil gameState
+  const boardWidth = useRecoilValue(gameState.width);
+  const boardHeight = useRecoilValue(gameState.height);
+  const cellSize = useRecoilValue(gameState.cellSize);
+
   return (
     <div
       className="GameBoard-board"

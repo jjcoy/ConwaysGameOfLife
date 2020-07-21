@@ -21,9 +21,10 @@ const Home = () => {
   const [tick, setTick] = useRecoilState(gameState.gameTick);
   const incrementByOne = () => setTick(tick + 1);
 
-  // function to get true or false
-  const trueOrFalse = () => {
-    return Math.random() > 0.5;
+  // function to get true or false,
+  // level=0.50 would have 50% live and level=0.25 would have 25% live
+  const trueOrFalse = (level) => {
+    return Math.random() < level;
   };
 
   // function to reset all cellLifes to being dead (false), and a few random ones true
@@ -36,11 +37,7 @@ const Home = () => {
       cells[x] = []; // make this an array
       for (let y = 0; y < gameRows; y++) {
         // y goes down the rows
-        if (x % 2 === 0 && y % 2 === 0) {
-          cells[x][y] = { x: x, y: y, live: trueOrFalse() };
-        } else {
-          cells[x][y] = { x: x, y: y, live: false };
-        }
+        cells[x][y] = { x: x, y: y, live: trueOrFalse(0.25) };
       }
     }
 

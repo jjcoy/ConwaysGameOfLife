@@ -19,6 +19,7 @@ export const cols = atom({ key: 'cols', default: 30 });
 export const cellSize = atom({ key: 'cellSize', default: 20 });
 
 // the state of all the cells, a 2D array of boolean
+// NOTE:  this array is initialized in the Home.js file
 export const cellLife = atom({ key: 'cellLife', default: [] });
 
 ///////
@@ -35,4 +36,17 @@ export const width = selector({
 export const height = selector({
   key: 'height',
   get: ({ get }) => get(rows) * get(cellSize),
+});
+
+// get a list of live cells, with x and y components
+export const liveCells = selector({
+  key: 'liveCells',
+  get: ({ get }) => {
+    // first, we need to flatten the 2D array, into one array of objects, of the form:
+    // [ ... {x: 29, y: 15, live: true}, {x: 29, y:16, live: false} ... ]
+    const allCells = [].concat.apply([], get(cellLife)); // all cells
+
+    // just use the ones that are alive
+    return allCells.filter((item) => item.live);
+  },
 });

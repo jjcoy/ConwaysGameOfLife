@@ -6,6 +6,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import './GameBoard.css';
+import Cell from './Cell';
 
 // import the atoms that represent the game
 import * as gameState from '../gameState';
@@ -15,6 +16,7 @@ const GameBoard = () => {
   const boardWidth = useRecoilValue(gameState.width);
   const boardHeight = useRecoilValue(gameState.height);
   const cellSize = useRecoilValue(gameState.cellSize);
+  const liveCells = useRecoilValue(gameState.liveCells);
 
   return (
     <div
@@ -25,7 +27,16 @@ const GameBoard = () => {
         height: `${boardHeight}px`,
         backgroundSize: `${cellSize}px ${cellSize}px`,
       }}
-    ></div>
+      // onClick={this.handleClick}
+      //   ref={(n) => {
+      //     this.boardRef = n;
+      //   }}
+    >
+      {/* Draw the cells that are alive as black squares on the board */}
+      {liveCells.map((cell) => (
+        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
+      ))}
+    </div>
   );
 };
 

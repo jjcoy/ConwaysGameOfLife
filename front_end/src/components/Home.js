@@ -2,12 +2,11 @@
 
 // standard imports
 import React from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import './Home.css';
 
 // import components
 import GameBoard from './GameBoard';
-import Controls from './Controls';
 
 // import the atoms that represent the game
 import * as gameState from '../gameState';
@@ -16,9 +15,18 @@ const Home = () => {
   // gather state information from the Recoil gameState
   const gameRows = useRecoilValue(gameState.rows);
   const gameCols = useRecoilValue(gameState.cols);
-  const [gameCells, setGameCells] = useRecoilState(gameState.cellLife);
+  const setGameCells = useSetRecoilState(gameState.cellLife);
 
-  // function to reset all cellLifes to being dead (false)
+  // game clock (tick)
+  const [tick, setTick] = useRecoilState(gameState.gameTick);
+  const incrementByOne = () => setTick(tick + 1);
+
+  // function to get true or false
+  const trueOrFalse = () => {
+    return Math.random() > 0.5;
+  };
+
+  // function to reset all cellLifes to being dead (false), and a few random ones true
   const resetGameCells = () => {
     let cells = []; // cells will be a 2D array of booleans
 
@@ -28,34 +36,44 @@ const Home = () => {
       cells[x] = []; // make this an array
       for (let y = 0; y < gameRows; y++) {
         // y goes down the rows
-        cells[x][y] = false;
+        if (x % 2 === 0 && y % 2 === 0) {
+          cells[x][y] = { x: x, y: y, live: trueOrFalse() };
+        } else {
+          cells[x][y] = { x: x, y: y, live: false };
+        }
       }
     }
 
     // return the newly built 2D array
-    return cells;
+    setGameCells(cells);
   };
 
   return (
     <div className="Home">
+      {/* The title area above the gameboard */}
       <div className="Home-title">
-        <p className="title-text">Conway's Game of Life</p>
-        <p>
+        <div className="title-text">Conway's Game of Life</div>
+        <div>
           For more information, visit the{' '}
           <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
             Wikipedia page
           </a>
-          <p>
+          <div>
             {gameRows}, {gameCols}
-          </p>
-        </p>
+          </div>
+        </div>
       </div>
+
+      {/* The gameboard itself. */}
       <div className="Home-board">
         <GameBoard />
       </div>
-      <div className="Home-controls">
+
+      {/* The panel of controls, below the gameboard */}
+      <div className="Controls-panel">
+        <div className="Controls-tick">Tick: {tick}</div>
+        <button onClick={incrementByOne}>Next</button>
         <button onClick={resetGameCells}>Reset cells</button>
-        <Controls />
       </div>
     </div>
   );

@@ -9,6 +9,12 @@ import { atom, selector } from 'recoil'; // Recoil is a state management library
 // the time counter for the game
 export const gameTick = atom({ key: 'gameTick', default: 0 });
 
+// is the game running?
+export const gameRunning = atom({ key: 'gameRunning', deafult: false });
+
+// game speed, in milliseconds
+export const gameSpeed = atom({ key: 'gameSpeed', default: 100 });
+
 // the number of rows in the game board
 export const rows = atom({ key: 'rows', default: 20 });
 
@@ -48,5 +54,14 @@ export const liveCells = selector({
 
     // just use the ones that are alive
     return allCells.filter((item) => item.live);
+  },
+});
+
+// get the total number of live cells
+export const numLiveCells = selector({
+  key: 'numLiveCells',
+  get: ({ get }) => {
+    return [].concat.apply([], get(cellLife)).filter((item) => item.live)
+      .length;
   },
 });

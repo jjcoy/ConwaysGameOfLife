@@ -5,17 +5,19 @@
 
 .Home-title {
   align-items: flex-start;
+  padding: 3em;
   color: deepskyblue;
 }
 
 .Home-board {
   align-items: center;
-  color: deepskyblue;
+  padding: 3em;
   background-color: gainsboro;
 }
 
 .Home-controls {
   align-items: flex-end;
+  padding: 3em;
   color: darkslateblue;
 }
 

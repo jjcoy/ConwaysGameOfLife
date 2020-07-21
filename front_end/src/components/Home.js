@@ -16,10 +16,17 @@ const Home = () => {
   const gameRows = useRecoilValue(gameState.rows);
   const gameCols = useRecoilValue(gameState.cols);
   const setGameCells = useSetRecoilState(gameState.cellLife);
+  const numLiveCells = useRecoilValue(gameState.numLiveCells);
 
   // game clock (tick)
+  const gameSpeed = useRecoilValue(gameState.gameSpeed);
   const [tick, setTick] = useRecoilState(gameState.gameTick);
   const incrementByOne = () => setTick(tick + 1);
+
+  // run or pause game
+  const [running, setRunning] = useRecoilState(gameState.gameRunning);
+  const go = () => setRunning(true);
+  const stop = () => setRunning(false);
 
   // function to get true or false,
   // level=0.50 would have 50% live and level=0.25 would have 25% live
@@ -28,7 +35,11 @@ const Home = () => {
   };
 
   // function to reset all cellLifes to being dead (false), and a few random ones true
-  const resetGameCells = () => {
+  const resetGame = () => {
+    // reset the game counter
+    setTick(0);
+
+    // reset the cell contents
     let cells = []; // cells will be a 2D array of booleans
 
     // build and set the cells to false, using rows and cols from the gameState to control the size
@@ -55,9 +66,6 @@ const Home = () => {
           <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
             Wikipedia page
           </a>
-          <div>
-            {gameRows}, {gameCols}
-          </div>
         </div>
       </div>
 
@@ -67,10 +75,27 @@ const Home = () => {
       </div>
 
       {/* The panel of controls, below the gameboard */}
-      <div className="Controls-panel">
-        <div className="Controls-tick">Tick: {tick}</div>
-        <button onClick={incrementByOne}>Next</button>
-        <button onClick={resetGameCells}>Reset cells</button>
+      <div className="Home-controls">
+        <div>Game Speed: {gameSpeed}</div>
+        <div>
+          Tick: {tick}{' '}
+          {running ? (
+            <div>
+              <button onClick={stop}>Pause</button>
+            </div>
+          ) : (
+            <div>
+              <button onClick={incrementByOne}>Step</button>{' '}
+              <button onClick={go}>Run</button>
+            </div>
+          )}
+        </div>
+        <div>
+          Number of Live Cells: {numLiveCells}{' '}
+          <div>
+            <button onClick={resetGame}>Reset cells</button>
+          </div>
+        </div>
       </div>
     </div>
   );

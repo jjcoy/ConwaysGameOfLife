@@ -57,7 +57,7 @@ export const liveCells = selector({
   },
 });
 
-// get the total number of live cells
+// get the total number of live cells on the game board
 export const numLiveCells = selector({
   key: 'numLiveCells',
   get: ({ get }) => {

@@ -33,8 +33,9 @@ const GameBoard = () => {
       //   }}
     >
       {/* Draw the cells that are alive as black squares on the board */}
+      {/* Note that x is left-right and y is up-down */}
       {liveCells.map((cell) => (
-        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
+        <Cell x={cell.col} y={cell.row} key={`${cell.col},${cell.row}`} />
       ))}
     </div>
   );

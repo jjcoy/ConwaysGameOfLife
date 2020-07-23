@@ -2,7 +2,7 @@
 
 // standard imports
 import React from 'react';
-import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import './Home.css';
 
 // import components
@@ -21,7 +21,7 @@ const Home = () => {
   const [tick, setTick] = useRecoilState(gameState.gameTick);
   const [running, setRunning] = useRecoilState(gameState.gameRunning);
 
-  // start the game running
+  // start the game running, stop when there are no live cells, report number of generations
   const go = () => setRunning(true);
 
   // pause the game
@@ -34,18 +34,18 @@ const Home = () => {
     // for each cell, check to see if it will live or die
     // We are making a new 2D array, since we are changing many cells, and don't want to
     // rerender after each individual cell is changed
-    let newGenGameCells = Array(gameCols)
+    let newGenGameCells = Array(gameRows)
       .fill()
-      .map(() => Array(gameRows).fill(false));
+      .map(() => Array(gameCols).fill(false));
     // cycle through gameCells (last generation) and determine new generation
     for (let row = 0; row < gameRows; row++) {
-      // this is y
+      // this is down the rows
       for (let col = 0; col < gameCols; col++) {
-        // this is x
+        // this is across the cols
         newGenGameCells[row][col] = {
-          x: row,
-          y: col,
-          live: willCellLive(col, row),
+          row: row,
+          col: col,
+          live: willCellLive(row, col),
         };
       }
     }
@@ -69,12 +69,12 @@ const Home = () => {
     let cells = []; // cells will be a 2D array of booleans
 
     // build and set the cells to false, using rows and cols from the gameState to control the size
-    for (let x = 0; x < gameCols; x++) {
-      // x goes across the columns
-      cells[x] = []; // make this an array
-      for (let y = 0; y < gameRows; y++) {
-        // y goes down the rows
-        cells[x][y] = { x: x, y: y, live: trueOrFalse(0.25) };
+    for (let row = 0; row < gameRows; row++) {
+      // x goes down the rows
+      cells[row] = []; // make this an array
+      for (let col = 0; col < gameCols; col++) {
+        // y goes across the columns
+        cells[row][col] = { row: row, col: col, live: trueOrFalse(0.25) };
       }
     }
 
@@ -93,40 +93,48 @@ const Home = () => {
   // 1. Any live cell with two or three live neighbours survives.
   // 2. Any dead cell with three live neighbours becomes a live cell.
   // 3. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
-  const willCellLive = (thisx, thisy) => {
+  const willCellLive = (thisRow, thisCol) => {
     // calculate the positions surrounding this cell (the board wraps around the edges)
-    // (0,0) is top left corner, x positive to the right, y positive going down
-    const west = mod(thisx - 1, gameCols); // javascript % does not work for negatives
-    const east = (thisx + 1) % gameCols;
-    const north = mod(thisy - 1, gameRows);
-    const south = (thisy + 1) % gameRows;
+    // (0,0) is top left corner, row positive going down, col positive to the right
+    const west = mod(thisCol - 1, gameCols); // javascript % does not work for negatives
+    const east = (thisCol + 1) % gameCols;
+    const north = mod(thisRow - 1, gameRows);
+    const south = (thisRow + 1) % gameRows;
 
     // check contents of each of the 8 surrounding cells, if one is live, add to total
     let numLive = 0;
     // check directly left/right/up/down cells
-    if (gameCells[west][thisy].live) {
+    if (gameCells[thisRow][west].live) {
+      // left
       numLive++;
     }
-    if (gameCells[east][thisy].live) {
+    if (gameCells[thisRow][east].live) {
+      // right
       numLive++;
     }
-    if (gameCells[thisx][north].live) {
+    if (gameCells[north][thisCol].live) {
+      // up
       numLive++;
     }
-    if (gameCells[thisx][south].live) {
+    if (gameCells[south][thisCol].live) {
+      // down
       numLive++;
     }
     // check diagionals
-    if (gameCells[west][north].live) {
+    if (gameCells[north][west].live) {
+      // up left
       numLive++;
     }
-    if (gameCells[east][north].live) {
+    if (gameCells[north][east].live) {
+      // up right
       numLive++;
     }
-    if (gameCells[west][south].live) {
+    if (gameCells[south][west].live) {
+      // down left
       numLive++;
     }
-    if (gameCells[east][south].live) {
+    if (gameCells[south][east].live) {
+      // down right
       numLive++;
     }
 
@@ -134,7 +142,7 @@ const Home = () => {
     // cell will live to the next generation
     if (numLive === 3) {
       return true;
-    } else if (numLive === 2 && gameCells[(thisx, thisy)].live) {
+    } else if (numLive === 2 && gameCells[(thisCol, thisRow)].live) {
       return true;
     } else {
       return false;

@@ -1,7 +1,7 @@
 // front_end/src/components/Home.js
 
 // standard imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import './Home.css';
 
@@ -13,24 +13,82 @@ import * as gameState from '../gameState';
 
 const Home = () => {
   // gather state information from the Recoil gameState
-  const gameRows = useRecoilValue(gameState.rows);
-  const gameCols = useRecoilValue(gameState.cols);
-  const [gameCells, setGameCells] = useRecoilState(gameState.cellLife);
-  const numLiveCells = useRecoilValue(gameState.numLiveCells);
-  const gameSpeed = useRecoilValue(gameState.gameSpeed);
-  const [tick, setTick] = useRecoilState(gameState.gameTick);
-  const [running, setRunning] = useRecoilState(gameState.gameRunning);
+  const gameRows = useRecoilValue(gameState.rows); // total number of rows on the board
+  const gameCols = useRecoilValue(gameState.cols); // total number of cols
+  const [gameCells, setGameCells] = useRecoilState(gameState.cellLife); // status of all cells
+  const numLiveCells = useRecoilValue(gameState.numLiveCells); // total number of live cells
+  const gameSpeed = useRecoilValue(gameState.gameSpeed); // milliseconds between ticks
+  const [tick, setTick] = useRecoilState(gameState.gameTick); // tick (generation) counter
+  const [running, setRunning] = useRecoilState(gameState.gameRunning); // are we running now?
 
-  // start the game running, stop when there are no live cells, report number of generations
-  const go = () => setRunning(true);
+  // local variables for this component
+  let timeoutHandler = null; // event handler for ticks
+
+  // what to execute one time, on first component render
+  useEffect(() => {
+    // set up the game board
+    resetGame();
+    // the next line eliminates the error:
+    // React Hook useEffect has a missing dependency: 'getUsersSubmissionTitles'.
+    // Either include it or remove the dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // start the game running, stop when there are no live cells, or Tick = 100
+  // report number of generations
+  const go = () => {
+    // set the boolean to show we are running
+    setRunning(true);
+    // TODO:  problem -- the line above is not seeting running to true
+    console.log('go sees running: ', running);
+    // start stepping continuously, at the gameSpeed rate
+    stepContinuous();
+  };
 
   // pause the game
-  const stop = () => setRunning(false);
+  const stop = () => {
+    // set the boolean
+    console.log('stop ');
+    setRunning(false);
+
+    // stop timer
+    if (timeoutHandler) {
+      console.log(
+        'stop with number ',
+        timeoutHandler,
+        ' is stopping the timeoutHandler '
+      );
+      clearTimeout(timeoutHandler);
+      console.log('cleared: ', timeoutHandler);
+      timeoutHandler = null;
+    } else {
+      console.log('stop called with null timeoutHandler');
+    }
+  };
+
+  // TODO:  Does not work properly.  Bug located in go() or stepContinuous()
+  // call step continuously, resetting the setTimeout each time
+  // start timer as an event handler using window.setTimeout()
+  // see https://www.w3schools.com/jsref/met_win_settimeout.asp
+  // and http://bonsaiden.github.io/JavaScript-Garden/#other.timeouts
+  // window.setTimeout( function to call, milliseconds between function calls)
+  const stepContinuous = () => {
+    // call the function
+    console.log('stepContinuous called and sees running: ', running);
+    step();
+
+    // setTimeout only calls the function once, so we need to have this function reset it.
+    //if (running === true) {
+    console.log('stepcontinuous calling setTimeout again');
+    // create a new timeout handler (each time it is called, timeoutHandler goes up by 1)
+    timeoutHandler = setTimeout(stepContinuous, gameSpeed);
+    //}
+  };
 
   // step the game through one tick
   const step = () => {
     setTick(tick + 1);
-
+    console.log('step says: ' + tick);
     // for each cell, check to see if it will live or die
     // We are making a new 2D array, since we are changing many cells, and don't want to
     // rerender after each individual cell is changed
@@ -64,6 +122,7 @@ const Home = () => {
   const resetGame = () => {
     // reset the game counter
     setTick(0);
+    setRunning(false);
 
     // reset the cell contents
     let cells = []; // cells will be a 2D array of booleans
@@ -171,7 +230,7 @@ const Home = () => {
       <div className="Home-controls">
         <div>Game Speed: {gameSpeed}</div>
         <div>
-          Tick: {tick}{' '}
+          Generation: {tick}{' '}
           {running ? (
             <div>
               <button onClick={stop}>Pause</button>

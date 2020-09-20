@@ -1,0 +1,15 @@
+.GameBoard-board {
+  position: relative;
+  margin: 0 auto;
+  background-color: whitesmoke;
+  background-image: linear-gradient(black 1px, transparent 1px),
+    linear-gradient(90deg, black 1px, transparent 1px);
+}
+
+/* background-image linear-gradient is used to add lines around each cell:
+ * first linear-gradient adds lines from top to bottom, 
+ * the second from left to right (because of the 90 deg argument)
+ * https://www.w3schools.com/cssref/func_linear-gradient.asp 
+ *
+ * the size of the cells is specified in background-size tag, in the
+ * GameBoard.js file (since it is dynamic) */

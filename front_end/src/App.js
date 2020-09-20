@@ -8,9 +8,6 @@ import { RecoilRoot } from 'recoil'; // Recoil is a state management library
 import Home from './components/Home';
 import './App.css';
 
-// bring in other components needed
-// TODO:  import the gameboard component and the controls component
-
 // this is the App component that wraps everything else, and is rendered inside index.js
 const App = () => {
   // return the html we want to render on the page
@@ -18,11 +15,7 @@ const App = () => {
     <RecoilRoot>
       {/* We only need one RecoilRoot per application */}
       <div className="App">
-        <header className="App-header">
-          <p>
-            <Home />
-          </p>
-        </header>
+        <Home />
       </div>
     </RecoilRoot>
   );

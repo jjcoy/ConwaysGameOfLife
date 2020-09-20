@@ -1,0 +1,27 @@
+.Home {
+  display: flex;
+  flex-direction: column;
+}
+
+.Home-title {
+  align-items: flex-start;
+  padding: 3em;
+  color: deepskyblue;
+}
+
+.Home-board {
+  align-items: center;
+  padding: 3em;
+  background-color: gainsboro;
+}
+
+.Home-controls {
+  align-items: flex-end;
+  padding: 3em;
+  color: darkslateblue;
+}
+
+.title-text {
+  font-weight: bold;
+  font-size: 2em;
+}

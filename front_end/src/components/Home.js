@@ -1,7 +1,7 @@
 // front_end/src/components/Home.js
 
 // standard imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import './Home.css';
 
@@ -13,24 +13,26 @@ import * as gameState from '../gameState';
 
 const Home = () => {
   // gather state information from the Recoil gameState
-  const gameRows = useRecoilValue(gameState.rows);
-  const gameCols = useRecoilValue(gameState.cols);
-  const [gameCells, setGameCells] = useRecoilState(gameState.cellLife);
-  const numLiveCells = useRecoilValue(gameState.numLiveCells);
-  const gameSpeed = useRecoilValue(gameState.gameSpeed);
-  const [tick, setTick] = useRecoilState(gameState.gameTick);
-  const [running, setRunning] = useRecoilState(gameState.gameRunning);
+  const gameRows = useRecoilValue(gameState.rows); // total number of rows on the board
+  const gameCols = useRecoilValue(gameState.cols); // total number of cols
+  const [gameCells, setGameCells] = useRecoilState(gameState.cellLife); // status of all cells
+  const numLiveCells = useRecoilValue(gameState.numLiveCells); // total number of live cells
+  const [tick, setTick] = useRecoilState(gameState.gameTick); // tick (generation) counter
 
-  // start the game running, stop when there are no live cells, report number of generations
-  const go = () => setRunning(true);
-
-  // pause the game
-  const stop = () => setRunning(false);
+  // what to execute one time, on first component render
+  useEffect(() => {
+    // set up the game board
+    resetGame();
+    // the next line eliminates the error:
+    // React Hook useEffect has a missing dependency: 'getUsersSubmissionTitles'.
+    // Either include it or remove the dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // step the game through one tick
   const step = () => {
     setTick(tick + 1);
-
+    console.log('step says: ' + tick);
     // for each cell, check to see if it will live or die
     // We are making a new 2D array, since we are changing many cells, and don't want to
     // rerender after each individual cell is changed
@@ -169,19 +171,11 @@ const Home = () => {
 
       {/* The panel of controls, below the gameboard */}
       <div className="Home-controls">
-        <div>Game Speed: {gameSpeed}</div>
         <div>
-          Tick: {tick}{' '}
-          {running ? (
-            <div>
-              <button onClick={stop}>Pause</button>
-            </div>
-          ) : (
-            <div>
-              <button onClick={step}>Step</button>{' '}
-              <button onClick={go}>Run</button>
-            </div>
-          )}
+          Generation: {tick}{' '}
+          <div>
+            <button onClick={step}>Step</button>
+          </div>
         </div>
         <div>
           Number of Live Cells: {numLiveCells}{' '}

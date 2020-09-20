@@ -10,10 +10,10 @@ import { atom, selector } from 'recoil'; // Recoil is a state management library
 export const gameTick = atom({ key: 'gameTick', default: 0 });
 
 // is the game running?
-export const gameRunning = atom({ key: 'gameRunning', deafult: false });
+export const gameRunning = atom({ key: 'gameRunning', default: false });
 
 // game speed, in milliseconds
-export const gameSpeed = atom({ key: 'gameSpeed', default: 100 });
+export const gameSpeed = atom({ key: 'gameSpeed', default: 500 });
 
 // the number of rows in the game board
 export const rows = atom({ key: 'rows', default: 20 });
